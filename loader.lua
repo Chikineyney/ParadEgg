@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Chikineyney/ParadEgg/main/ParadEgg.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Chikineyney/ParadEgg/refs/heads/main/ParadEgg.lua"))()
