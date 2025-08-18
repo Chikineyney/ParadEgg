@@ -1,5 +1,4 @@
--- ParadEgg.lua (Config + Stacked Notifications + Sound)
-getgenv().ParadEgg_Version = "v1.3"
+
 
 -- Config Values
 getgenv().baldTeam = 1
