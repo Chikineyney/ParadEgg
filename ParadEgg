@@ -1,0 +1,10 @@
+getgenv().baldTeam = 1
+getgenv().koiTeam = 2
+getgenv().sealTeam = 3
+getgenv().eggPlace = {"Paradise Egg"} 
+getgenv().petSell = {"Ostrich", "Peacock", "Scarlet Macaw", "Capybara"}
+getgenv().KG = 3
+getgenv().Age = 1
+getgenv().maxEgg = 8
+getgenv().autoPlaceEgg = true
+getgenv().farmEggs = true
