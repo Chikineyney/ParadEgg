@@ -1,4 +1,4 @@
--- ✅ Config
+-- Config Values
 getgenv().koiTeam = 2
 getgenv().sealTeam = 3
 getgenv().baldTeam = 1
@@ -10,118 +10,58 @@ getgenv().maxEgg = 8
 getgenv().autoPlaceEgg = true
 getgenv().farmEggs = true
 
--- ✅ Services
+
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local PlayerGui = Player:WaitForChild("PlayerGui")
 
--- ✅ UI Setup
-local NotifGui = Instance.new("ScreenGui")
-NotifGui.Parent = PlayerGui
-NotifGui.IgnoreGuiInset = true
-NotifGui.ResetOnSpawn = false
-NotifGui.Name = "ParadEggNotifGui"
 
-local NotifContainer = Instance.new("Frame")
-NotifContainer.Parent = NotifGui
-NotifContainer.AnchorPoint = Vector2.new(1, 1)
-NotifContainer.Position = UDim2.new(1, -20, 1, -20) -- bottom-right
-NotifContainer.Size = UDim2.new(0.3, 0, 1, -40)
-NotifContainer.BackgroundTransparency = 1
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SimpleLoaderUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.Parent = PlayerGui
 
-local UIListLayout = Instance.new("UIListLayout")
-UIListLayout.Parent = NotifContainer
-UIListLayout.FillDirection = Enum.FillDirection.Vertical
-UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-UIListLayout.Padding = UDim.new(0, 5)
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0, 280, 0, 150)
+Frame.Position = UDim2.new(0.5, -140, 0.2, 0) 
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.BackgroundTransparency = 0.1
 
--- ✅ Notification Function
-local function createNotification(message)
-    local Frame = Instance.new("Frame")
-    Frame.Parent = NotifContainer
-    Frame.Size = UDim2.new(1, 0, 0, 40)
-    Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Frame.BorderSizePixel = 0
-    Frame.BackgroundTransparency = 0.2
-    Frame.AutomaticSize = Enum.AutomaticSize.Y
+local UICorner = Instance.new("UICorner", Frame)
+UICorner.CornerRadius = UDim.new(0, 10)
 
-    local UICorner = Instance.new("UICorner", Frame)
-    UICorner.CornerRadius = UDim.new(0, 6)
+local Title = Instance.new("TextLabel")
+Title.Parent = Frame
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.Text = "✅ Script Loaded"
+Title.TextColor3 = Color3.fromRGB(0, 255, 127)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextScaled = true
+Title.BackgroundTransparency = 1
 
-    local TextLabel = Instance.new("TextLabel")
-    TextLabel.Parent = Frame
-    TextLabel.Size = UDim2.new(1, -10, 1, 0)
-    TextLabel.Position = UDim2.new(0, 5, 0, 0)
-    TextLabel.Text = message
-    TextLabel.TextColor3 = Color3.fromRGB(255, 215, 0)
-    TextLabel.BackgroundTransparency = 1
-    TextLabel.Font = Enum.Font.SourceSansBold
-    TextLabel.TextScaled = true
-    TextLabel.TextWrapped = true
+local Info = Instance.new("TextLabel")
+Info.Parent = Frame
+Info.Size = UDim2.new(1, -20, 1, -50)
+Info.Position = UDim2.new(0, 10, 0, 45)
+Info.TextXAlignment = Enum.TextXAlignment.Left
+Info.TextYAlignment = Enum.TextYAlignment.Top
+Info.Text = 
+    "• Max Egg: " .. tostring(getgenv().maxEgg) ..
+    "\n• Auto Place: " .. tostring(getgenv().autoPlaceEgg) ..
+    "\n• Farm Eggs: " .. tostring(getgenv().farmEggs) ..
+    "\n• Sell Pets: " .. table.concat(getgenv().petSell, ", ")
+Info.TextColor3 = Color3.fromRGB(255, 255, 255)
+Info.Font = Enum.Font.SourceSans
+Info.TextSize = 18
+Info.BackgroundTransparency = 1
+Info.TextWrapped = true
 
-    -- Fade in
-    TextLabel.TextTransparency = 1
-    Frame.BackgroundTransparency = 1
-    for i = 1, 0, -0.1 do
-        TextLabel.TextTransparency = i
-        Frame.BackgroundTransparency = 0.5 * i
-        task.wait(0.05)
-    end
 
-    -- Auto fade out
-    task.delay(3, function()
-        for i = 0, 1, 0.1 do
-            TextLabel.TextTransparency = i
-            Frame.BackgroundTransparency = 0.2 + i * 0.8
-            task.wait(0.05)
-        end
-        Frame:Destroy()
-    end)
-end
-
--- ✅ Sell Notification
-local function SellPet(petName)
-    createNotification("🐾 Sold " .. petName .. " (" .. tostring(getgenv().KG) .. " KG)")
-end
-
--- ✅ Team Switch Notification
-local function SwitchTeam(teamName, teamId)
-    -- 🔹 Replace with actual Remote when you know it
-    -- game.ReplicatedStorage.Remotes.SwitchTeam:FireServer(teamId)
-    createNotification("🔄 Switched to " .. teamName .. " Team")
-end
-
--- ✅ Egg Placement Notification
-local function PlaceEgg(eggName)
-    -- 🔹 Replace with actual Remote when you know it
-    -- game.ReplicatedStorage.Remotes.PlaceEgg:FireServer(eggName)
-    createNotification("🥚 Placed " .. eggName)
-end
-
--- ✅ Farm Eggs Loop
 task.spawn(function()
-    while getgenv().farmEggs do
-        task.wait(2) -- adjust speed if needed
-
-        -- Auto sell pets
-        for _, pet in ipairs(getgenv().petSell) do
-            SellPet(pet)
-        end
-
-        -- Auto place eggs
-        if getgenv().autoPlaceEgg then
-            for _, egg in ipairs(getgenv().eggPlace) do
-                PlaceEgg(egg)
-            end
-        end
-    end
+    wait(3)
+    Frame:TweenPosition(UDim2.new(0.5, -140, -0.5, 0), "Out", "Quad", 1, true)
+    wait(1)
+    ScreenGui:Destroy()
 end)
-
--- ✅ Example Team Switching (test only)
-task.delay(5, function() SwitchTeam("Bald", getgenv().baldTeam) end)
-task.delay(8, function() SwitchTeam("Koi", getgenv().koiTeam) end)
-task.delay(11, function() SwitchTeam("Seal", getgenv().sealTeam) end)
-
--- ✅ First Run Notify
-createNotification("✅ Script Loaded | MaxEgg: " .. tostring(getgenv().maxEgg))
